@@ -1,0 +1,4 @@
+Commands to execute telemetry_sim in visual code:
+	gcc telemetry_sim.c -o telemetry_sim
+
+	./telemetry_sim
