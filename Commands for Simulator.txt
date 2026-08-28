@@ -3,4 +3,41 @@ Commands to execute telemetry_sim in visual code:
 
 	./telemetry_sim
 
-Testing text
+
+temperature_c (Environmental / Equipment Thermal State)
+	Corning: Optical laser diode enclosure temperature (lasers degrade if overheated)
+	GE Vernova: Transformer core or turbine bearing temperature.
+	Duke Energy: Outdoor substation cabinet internal temperature.
+
+voltage_kv (Electrical Power Grid State):
+	GE Vernova: Power generation output voltage.
+	Duke Energy: Distribution grid line voltage (e.g., monitoring a $12\text{ kV}$ distribution line).
+	Corning: Clean backup power feed voltage supplying the fiber optic amplifiers.
+
+optical_loss_db (Signal Line Integrity)
+	Corning: Fiber optic cable attenuation (measured in decibels, $\text{dB}$). Signal drops if a cable is bent, damaged, or spliced poorly.
+	GE Vernova & Duke Energy: Modern power grids run fiber optics along power lines (known as OPGW—Optical Ground Wire) to transmit grid protection control signals instantly. High optical loss means communications are degrading.
+
+vibration_g (Mechanical & Physical Integrity)
+	GE Vernova: Vibration forces ($g$-force) on rotating generator shafts or cooling fans.
+	Duke Energy: Transformer vault hum and physical mechanical stress.
+	Corning: Structural stability of outdoor fiber equipment racks.
+
+Simulated output in a form:
+{
+  "device_id": 101,
+  "temperature_c": 48.52,
+  "voltage_kv": 12.15,
+  "optical_loss_db": 0.42,
+  "vibration_g": 0.08
+}
+	
+
+Typical Normal vs. Danger Ranges for Your C Randomizer
+	temperature_c: Normal is $35.0$ to $65.0^\circ\text{C}$. Danger (Alert) is anything above $80.0^\circ\text{C}$.
+
+	voltage_kv: Normal is $11.8$ to $12.2\text{ kV}$. Danger is below $11.2\text{ kV}$ (undervoltage) or above $12.8\text{ kV}$ (overvoltage).
+
+	optical_loss_db: Normal is $0.1$ to $1.0\text{ dB}$. Danger is anything above $3.0\text{ dB}$ (signal fade).
+
+	vibration_g: Normal is $0.01$ to $0.15\text{ g}$. Danger is anything above $0.50\text{ g}$ (excessive mechanical shaking).
