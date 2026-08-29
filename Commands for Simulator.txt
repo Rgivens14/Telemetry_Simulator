@@ -41,3 +41,12 @@ Typical Normal vs. Danger Ranges for Your C Randomizer
 	optical_loss_db: Normal is $0.1$ to $1.0\text{ dB}$. Danger is anything above $3.0\text{ dB}$ (signal fade).
 
 	vibration_g: Normal is $0.01$ to $0.15\text{ g}$. Danger is anything above $0.50\text{ g}$ (excessive mechanical shaking).
+
+
+
+The Big Picture (How Python Fits Later)
+Right now, you are just building the "faker" box in C.
+
+When you run ./telemetry_sim in your terminal, all you want to see is a new line of JSON text popping up on your screen once every second, displaying simulated live measurements.
+
+Later on in Phase 2, you'll point your Python script at this C program. Python will "watch" these text lines as they roll out, grab the numbers, check if the device is overheating, and save the data to a database.

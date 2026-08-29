@@ -1,4 +1,16 @@
 #include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
+
+typedef struct {
+    char *device_id;
+    float temperature_c;
+    float voltage_kv;
+    float optical_loss_db;
+    float vibration_g;
+} indicators;
+
+//srand vs rand
 
 int main(void) {
     printf("Really Working\n");
