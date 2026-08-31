@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 typedef struct {
-    char *device_id;
+    int device_id;
     float temperature_c;
     float voltage_kv;
     float optical_loss_db;
@@ -13,7 +13,10 @@ typedef struct {
 //srand vs rand
 
 int main(void) {
-    printf("Really Working\n");
+    int data_id = 101;
+    indicators data;
+    data.device_id = data_id;
+    printf("%d\n", data.device_id);
     return 0;
 }
 //Define the Readout
