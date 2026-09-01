@@ -16,7 +16,7 @@ int main(void) {
     int data_id = 101;
     indicators data;
     data.device_id = data_id;
-    printf("%d\n", data.device_id);
+    printf("{%d\n%f\n%f\n%f\n%f}\n", data.device_id, data.temperature_c, data.voltage_kv, data.optical_loss_db, data.vibration_g);
     return 0;
 }
 //Define the Readout
