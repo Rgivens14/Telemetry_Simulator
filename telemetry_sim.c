@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <time.h>
-#include <stdlib.h>
+#include <stdlib.h> //use for rand() and srand()
+#include <time.h> //helps to generate a new number each time it is ran
 
 typedef struct {
     int device_id;
@@ -16,7 +17,15 @@ int main(void) {
     int data_id = 101;
     indicators data;
     data.device_id = data_id;
-    printf("{%d\n%f\n%f\n%f\n%f}\n", data.device_id, data.temperature_c, data.voltage_kv, data.optical_loss_db, data.vibration_g);
+
+    srand(time(NULL)); //seed the random num generator to use the current time
+
+    int min = 1.00;
+    int max = 100.00;
+
+    int rand_num = (rand() % (max - min + 1)) + min;
+
+    printf("{%d\n%d random number int form\n%f\n%f\n%f}\n", data.device_id, rand_num, data.voltage_kv, data.optical_loss_db, data.vibration_g);
     return 0;
 }
 //Define the Readout
