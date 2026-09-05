@@ -2,6 +2,7 @@
 #include <time.h>
 #include <stdlib.h> //use for rand() and srand()
 #include <time.h> //helps to generate a new number each time it is ran
+#include <unistd.h> //this should use the sleep library
 
 typedef struct {
     int device_id;
@@ -11,21 +12,45 @@ typedef struct {
     float vibration_g;
 } indicators;
 
-//srand vs rand
+float get_random_float(float min, float max) {
+    return min + ((float)rand() / (float)RAND_MAX) * (max - min);
+}
+
+int get_random_int(int min, int max) {
+    return (rand() % (max - min + 1)) + min;
+}
 
 int main(void) {
-    int data_id = 101;
-    indicators data;
-    data.device_id = data_id;
-
     srand(time(NULL)); //seed the random num generator to use the current time
 
-    int min = 1.00;
-    int max = 100.00;
+indicators data;
 
-    int rand_num = (rand() % (max - min + 1)) + min;
 
-    printf("{%d\n%d random number int form\n%f\n%f\n%f}\n", data.device_id, rand_num, data.voltage_kv, data.optical_loss_db, data.vibration_g);
+while (1) {
+    data.device_id = get_random_int(101, 10001);
+    data.temperature_c = get_random_float(10.0f, 100.0f);
+    data.voltage_kv = get_random_float(10.0f, 100.0f);
+    data.optical_loss_db = get_random_float(10.0f, 100.0f);
+    data.vibration_g = get_random_float(10.0f, 100.0f);
+
+    printf(
+        "{\"device_id\": %d, "
+        "\"temperature_c\": %.2f, "
+        "\"voltage_kv\": %.2f, "
+        "\"optical_loss_db\": %.2f, "
+        "\"vibration_g\": %.2f}\n",
+        data.device_id,
+        data.temperature_c,
+        data.voltage_kv,
+        data.optical_loss_db,
+        data.vibration_g
+    );
+
+    fflush(stdout);
+
+    sleep(2);
+}
+    
     return 0;
 }
 //Define the Readout
