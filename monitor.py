@@ -19,9 +19,6 @@ YELLOW = "\033[93m"
 RED = "\033[91m"
 RESET = "\033[0m"
 
-#print(f"{GREEN}[OK]{RESET} System normal")
-#print(f"{RED}[ALERT]{RESET} High temperature detected!")
-
 for line in process.stdout:
     line = line.strip()
 
@@ -48,8 +45,20 @@ for line in process.stdout:
             print(f"Voltage: {voltage_kv} {RED}[CRITICAL]{RESET}")
 
         optical_loss_db = json_data["optical_loss_db"]
-        if optical_loss_db < 10.00:
+        if optical_loss_db < 20.00:
             print(f"Optical DB: {optical_loss_db} {GREEN}[OK]{RESET}")
+        elif 20.00 <= optical_loss_db <= 25.00:
+            print(f"Optical DB: {optical_loss_db} {YELLOW}[WARN]{RESET}")
+        else:
+            print(f"Optical DB: {optical_loss_db} {RED}[CRITICAL]{RESET}")
+
+        vibration_g = json_data["vibration_g"]
+        if vibration_g < 15.00:
+            print(f"Vibration: {vibration_g} {GREEN}[OK]{RESET}")
+        elif 15.00 <= vibration_g <80.00:
+            print(f"Vibration: {vibration_g} {YELLOW}[WARN]{RESET}")
+        else:
+            print(f"Vibration: {vibration_g} {RED}[CRITICAL]{RESET}")
     
     except (json.JSONDecodeError, KeyError) as e:
         print(f"Error processing telemetry line: {e}")
