@@ -27,11 +27,11 @@ indicators data;
 
 
 while (1) {
-    data.device_id = get_random_int(101, 10001);
-    data.temperature_c = get_random_float(10.0f, 100.0f);
-    data.voltage_kv = get_random_float(10.0f, 100.0f);
-    data.optical_loss_db = get_random_float(10.0f, 100.0f);
-    data.vibration_g = get_random_float(10.0f, 100.0f);
+    data.device_id = get_random_int(101, 103);
+    data.temperature_c = get_random_float(35.0f, 85.0f);
+    data.voltage_kv = get_random_float(11.0f, 13.0f);
+    data.optical_loss_db = get_random_float(0.1f, 3.5f);
+    data.vibration_g = get_random_float(0.01f, .60f);
 
     printf(
         "{\"device_id\": %d, "
