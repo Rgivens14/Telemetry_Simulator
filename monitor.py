@@ -1,6 +1,10 @@
 import subprocess #use .Popen to get instant output
 import json #
 
+# importing the database to save the valus generated
+import database
+import sqlite3
+
 #you will need to create a monitor. Use the subproccess to run the simulator
 #make sure that the compile output is converted to its text form
 
@@ -15,11 +19,17 @@ YELLOW = "\033[93m"
 RED = "\033[91m"
 RESET = "\033[0m"
 
+#connect the database before the lines generate
+conn = sqlite3.connect("telemetry_database.db")
+
+
 for line in process.stdout:
     line = line.strip()
 
     try:
         json_data = json.loads(line)
+
+        database.insert_readout(conn, json_data)
 
         device_id = json_data["device_id"]
         print(f"Device ID: {device_id}")
