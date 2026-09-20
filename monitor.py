@@ -5,6 +5,8 @@ import json #
 import database
 import sqlite3
 
+import alerts
+
 #you will need to create a monitor. Use the subproccess to run the simulator
 #make sure that the compile output is converted to its text form
 
@@ -30,6 +32,7 @@ for line in process.stdout:
         json_data = json.loads(line)
 
         database.insert_readout(conn, json_data)
+        alerts.check_alerts(json_data)
 
         device_id = json_data["device_id"]
         print(f"Device ID: {device_id}")

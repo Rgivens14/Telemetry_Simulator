@@ -1,15 +1,33 @@
 import database
 import sqlite3
+from datetime import datetime
 
 MAX_TEMP = 80.0
 MAX_VOLTAGE = 12.8
 MAX_OPTICAL_LOSS = 3.0
 MAX_VIBRATION = .5
 
-def check_alerts(data):
-    if data["temperature_c"] > MAX_TEMP:
-        alert = f"Max Temp of {MAX_TEMP} has exceeded to {data['temperature_c']}"
-        print(alert)
+def log_alert(message):
+    timestamp = datetime.now().isoformat()
+    log_entry = f"[{timestamp}] {message}\n"
+    print(log_entry, end="")  # print to screen
+    with open("alerts.log", "a") as f:
+        f.write(log_entry)     # write to file
 
-        with open("alerts.log", "a") as f: #use "a" since "w" keeps overwriting the previous records
-            f.write(alert + "\n")
+def check_alerts(data):
+
+    #temp alert
+    if data["temperature_c"] > MAX_TEMP:
+        log_alert(f"MAX TEMP EXCEEDED: {data['temperature_c']}°C (Threshold: {MAX_TEMP}°C)")
+
+    #voltage alert
+    if data['voltage_kv'] > MAX_VOLTAGE:
+        log_alert(f"MAX VOLTAGE EXCEED: {data['voltage_kv']}v (Threshold: {MAX_VOLTAGE}v)")
+
+    #optical alert
+    if data['optical_loss_db'] > MAX_OPTICAL_LOSS:
+        log_alert(f"MAX OPTICAL LOSS EXCEEDED: {data['optical_loss_db']} (THRESHOLD: {MAX_OPTICAL_LOSS})")
+
+    #vibration alert
+    if data['vibration_g'] > MAX_VIBRATION:
+         log_alert(f"MAX VIBRATION EXCEED {data['vibration_g']} (THRESHOLD: {MAX_VIBRATION})")
