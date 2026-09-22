@@ -50,3 +50,10 @@ Right now, you are just building the "faker" box in C.
 When you run ./telemetry_sim in your terminal, all you want to see is a new line of JSON text popping up on your screen once every second, displaying simulated live measurements.
 
 Later on in Phase 2, you'll point your Python script at this C program. Python will "watch" these text lines as they roll out, grab the numbers, check if the device is overheating, and save the data to a database.
+
+
+SELECT 
+    COUNT(*), 
+    AVG(temperature_c), MAX(temperature_c), MIN(temperature_c),
+    AVG(voltage_kv),    MAX(voltage_kv),    MIN(voltage_kv)
+FROM device
