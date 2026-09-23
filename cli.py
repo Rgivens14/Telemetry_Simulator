@@ -21,12 +21,14 @@ if args.summary:
     cur.execute("""
         SELECT 
             COUNT(*), 
-            AVG(temperature_c), 
-            MAX(temperature_c), 
-            MIN(temperature_c) 
+            AVG(temperature_c), MAX(temperature_c), MIN(temperature_c),
+            AVG(voltage_kv), MAX(voltage_kv), MIN(voltage_kv),
+            AVG(optical_loss_db), MAX(optical_loss_db), MIN(optical_loss_db)
         FROM device
     """)
-    total, avg_temp, max_temp, min_temp = cur.fetchone()
+    (total, avg_temp, max_temp, min_temp,
+     avg_volt, max_volt, min_volt,
+     min_optical, max_optical, avg_optical) = cur.fetchone()
 
     print("\n=== Telemetry Historical Summary ===")
     print(f"Total Readouts Recorded: {total}")
@@ -37,6 +39,17 @@ if args.summary:
         print(f"Average Temp: {avg_temp:.2f}°C")
         print(f"Maximum Temp: {max_temp:.2f}°C")
         print(f"Minimum Temp: {min_temp:.2f}°C")
+
+        print("\n--- Voltage Metrics ---")
+        print(f"Average Voltage: {avg_volt:.2f}V")
+        print(f"Minimum Voltage: {min_volt:.2f}V")
+        print(f"Maximum Voltage: {max_volt:.2f}V")
+
+        print("\n--- Optical Loss Metrics ---")
+        print(f"Average Optical: {avg_optical:.2f}")
+        print(f"Minimum Optical: {min_optical:.2f}")
+        print(f"Maximum Optical: {max_optical:.2f}")
+
     else:
         print("No historical data found in database.")
 
