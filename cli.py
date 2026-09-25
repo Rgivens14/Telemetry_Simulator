@@ -10,25 +10,34 @@ parser.add_argument(
     help="Display historical summary statistics from the database"
 )
 
+parser.add_argument(
+    "--db",
+    type=str,
+    default="telemetry_database.db",
+    help="Path to SQLite database file (default: telemetry_database.db)"
+)
+
 args = parser.parse_args()
 
 # 2. Check if the user passed --summary
 if args.summary:
-    conn = sqlite3.connect("telemetry_database.db")
+    conn = sqlite3.connect(args.db)
     cur = conn.cursor()
 
     # Query the aggregated temperature metrics
     cur.execute("""
         SELECT 
             COUNT(*), 
-            AVG(temperature_c), MAX(temperature_c), MIN(temperature_c),
-            AVG(voltage_kv), MAX(voltage_kv), MIN(voltage_kv),
-            AVG(optical_loss_db), MAX(optical_loss_db), MIN(optical_loss_db)
+            MIN(temperature_c), AVG(temperature_c), MAX(temperature_c),
+            MIN(voltage_kv), AVG(voltage_kv), MAX(voltage_kv),
+            MIN(optical_loss_db), AVG(optical_loss_db), MAX(optical_loss_db),
+            MIN(vibration_g), AVG(vibration_g), MAX(vibration_g)
         FROM device
     """)
-    (total, avg_temp, max_temp, min_temp,
-     avg_volt, max_volt, min_volt,
-     min_optical, max_optical, avg_optical) = cur.fetchone()
+    (total, min_temp, avg_temp, max_temp,
+     min_volt, avg_volt, max_volt,
+     min_optical, avg_optical, max_optical,
+     min_vibration, avg_vibration, max_vibration) = cur.fetchone()
 
     print("\n=== Telemetry Historical Summary ===")
     print(f"Total Readouts Recorded: {total}")
@@ -50,6 +59,10 @@ if args.summary:
         print(f"Minimum Optical: {min_optical:.2f}")
         print(f"Maximum Optical: {max_optical:.2f}")
 
+        print("\n--- Vibration Metrics ---")
+        print(f"Average Vibration: {avg_vibration:.2f}")
+        print(f"Minimum Vibration: {min_vibration:.2f}")
+        print(f"Maximum Vibration: {max_vibration:.2f}")
     else:
         print("No historical data found in database.")
 
