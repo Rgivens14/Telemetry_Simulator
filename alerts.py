@@ -15,19 +15,30 @@ def log_alert(message):
         f.write(log_entry)     # write to file
 
 def check_alerts(data):
+    triggered = []
 
     #temp alert
     if data["temperature_c"] > MAX_TEMP:
-        log_alert(f"MAX TEMP EXCEEDED: {data['temperature_c']}°C (Threshold: {MAX_TEMP}°C)")
+        msg = (f"MAX TEMP EXCEEDED: {data['temperature_c']}°C (Threshold: {MAX_TEMP}°C)")
+        log_alert(msg)
+        triggered.append(msg)
 
     #voltage alert
     if data['voltage_kv'] > MAX_VOLTAGE:
-        log_alert(f"MAX VOLTAGE EXCEED: {data['voltage_kv']}v (Threshold: {MAX_VOLTAGE}v)")
+        msg = (f"MAX VOLTAGE EXCEEDED: {data['voltage_kv']}v (Threshold: {MAX_VOLTAGE}v)")
+        log_alert(msg)
+        triggered.append(msg)
 
     #optical alert
     if data['optical_loss_db'] > MAX_OPTICAL_LOSS:
-        log_alert(f"MAX OPTICAL LOSS EXCEEDED: {data['optical_loss_db']} (THRESHOLD: {MAX_OPTICAL_LOSS})")
+        msg = (f"MAX OPTICAL LOSS EXCEEDED: {data['optical_loss_db']} (THRESHOLD: {MAX_OPTICAL_LOSS})")
+        log_alert(msg)
+        triggered.append(msg)
 
     #vibration alert
     if data['vibration_g'] > MAX_VIBRATION:
-         log_alert(f"MAX VIBRATION EXCEED {data['vibration_g']} (THRESHOLD: {MAX_VIBRATION})")
+         msg = (f"MAX VIBRATION EXCEEDED {data['vibration_g']} (THRESHOLD: {MAX_VIBRATION})")
+         log_alert(msg)
+         triggered.append(msg)
+
+    return triggered

@@ -1,5 +1,6 @@
 import argparse
 import sqlite3
+import monitor
 
 # 1. Setup the CLI parser
 parser = argparse.ArgumentParser(description="Industrial Telemetry System")
@@ -67,7 +68,11 @@ if args.summary:
         print("No historical data found in database.")
 
     print("====================================\n")
-
-
-
     conn.close()
+
+else:
+    print(f"Starting live telemetry monitor (connected to {args.db})...")
+    monitor.start_monitor(db_path=args.db)
+
+
+    
