@@ -24,11 +24,18 @@ RESET = "\033[0m"
 #connect the database before the lines generate
 def start_monitor(db_path="telemetry_database.db"):
     conn = sqlite3.connect(db_path)
-    process = subprocess.Popen(
-        ["./telemetry_sim"],
-        stdout=subprocess.PIPE,
-        text=True
+
+    #Use this for if the c executable is missing
+    try:
+        process = subprocess.Popen(
+            ["./telemetry_sim"],
+            stdout=subprocess.PIPE,
+            text=True
     )
+    except FileNotFoundError:
+        print(f"{RED}[ERROR]{RESET} C executable './telemetry_sim' not found!")
+        print("Please compile it first: gcc telemetry_sim.c -o telemetry_sim")
+        return
 
 
     for line in process.stdout:

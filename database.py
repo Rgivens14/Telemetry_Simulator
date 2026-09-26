@@ -19,9 +19,13 @@ def insert_readout(conn, data):
         INSERT INTO device (timestamp, device_id, temperature_c, voltage_kv, optical_loss_db, vibration_g)
         VALUES (?, ?, ?, ?, ?, ?)
     """
-    
-    cur.execute(query, values)
-    conn.commit()
+
+    #try statement for if the database is locked
+    try:
+        cur.execute(query, values)
+        conn.commit()
+    except sqlite3.OperationalError as e:
+        print(f"Database error: {e}")
 
 if __name__ == "__main__":
     # Main setup for the script
