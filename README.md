@@ -52,7 +52,7 @@ python3 cli.py --summary
 
 *# 4. Run automated test suite*
 
-pytest
+python3 -m pytest
 
 
 
